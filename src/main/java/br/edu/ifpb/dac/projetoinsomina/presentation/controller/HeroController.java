@@ -1,5 +1,7 @@
 package br.edu.ifpb.dac.projetoinsomina.presentation.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +35,9 @@ public class HeroController{
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity update(@PathVariable("id") int id,@RequestBody Hero hero) {
+	public ResponseEntity update(@PathVariable("id") Long id,@RequestBody Hero hero) {
 		try {
+			hero.setId(id);
 			hero = heroService.update(hero);
 			return ResponseEntity.ok(hero);
 		}catch(Exception e) {
@@ -43,7 +46,7 @@ public class HeroController{
 	}
 
 	@DeleteMapping("{id}")
-	public ResponseEntity delete(@PathVariable("id") int id){
+	public ResponseEntity delete(@PathVariable("id") Long id){
 		try {
 			heroService.delete(id);
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -52,11 +55,31 @@ public class HeroController{
 		}
 	}
 
-	@GetMapping
+	/*@GetMapping
 	public ResponseEntity find( @RequestParam(value = "id", required = false) int id) {
 		try {
 			Hero hero = heroService.read(id);
 			return ResponseEntity.ok(hero);
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+
+	}*/
+
+	@GetMapping
+	public ResponseEntity find( @RequestParam(value = "id", required = false) Long id,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "characterClass", required = false) String characterClass,
+			@RequestParam(value = "level", required = false) Long level) {
+		try {
+			Hero filter = new Hero();
+			filter.setId(id);
+			filter.setName(name);
+			filter.setCharacterClass(characterClass);
+			filter.setLevel(level);
+			
+			List<Hero> entities = heroService.find(filter);
+			return ResponseEntity.ok(entities);
 		}catch(Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

@@ -1,5 +1,7 @@
 package br.edu.ifpb.dac.projetoinsomina.presentation.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +34,9 @@ public class WeaponController {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity update(@PathVariable("id") int id,@RequestBody Weapon weapon) {
-		System.out.println(weapon.getName());
+	public ResponseEntity update(@PathVariable("id") Long id,@RequestBody Weapon weapon) {
 		try {
+			weapon.setId(id);
 			weapon = weaponService.update(weapon);
 			return ResponseEntity.ok(weapon);
 		}catch(Exception e) {
@@ -43,9 +45,8 @@ public class WeaponController {
 	}
 
 	@DeleteMapping("{id}")
-	public ResponseEntity delete(@PathVariable("id") int id){
+	public ResponseEntity delete(@PathVariable("id") Long id){
 		try {
-			System.out.println(id);
 			weaponService.delete(id);
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}catch(Exception e) {
@@ -53,11 +54,27 @@ public class WeaponController {
 		}
 	}
 
-	@GetMapping
+	/*@GetMapping
 	public ResponseEntity find( @RequestParam(value = "id", required = false) int id) {
 		try {
 			Weapon weapon = weaponService.read(id);
 			return ResponseEntity.ok(weapon);
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+
+	}*/
+
+	@GetMapping
+	public ResponseEntity find( @RequestParam(value = "id", required = false) Long id,
+			@RequestParam(value = "name", required = false) String name) {
+		try {
+			Weapon filter = new Weapon();
+			filter.setId(id);
+			filter.setName(name);
+			
+			List<Weapon> entities = weaponService.find(filter);
+			return ResponseEntity.ok(entities);
 		}catch(Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

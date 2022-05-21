@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.edu.ifpb.dac.projetoinsomina.model.entity.Hero;
 
 @Repository
-public interface HeroRepository extends JpaRepository<Hero, Integer>{
+public interface HeroRepository extends JpaRepository<Hero, Long>{
 
 }

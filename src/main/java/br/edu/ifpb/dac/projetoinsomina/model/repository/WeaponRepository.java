@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import br.edu.ifpb.dac.projetoinsomina.model.entity.Weapon;
 
 @Repository
-public interface WeaponRepository extends JpaRepository<Weapon, Integer>{
+public interface WeaponRepository extends JpaRepository<Weapon, Long>{
 
 	
 }

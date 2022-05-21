@@ -11,22 +11,22 @@ import javax.persistence.OneToOne;
 public class Hero {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
 	private String name;
 
 	private String characterClass;
 
-	private int level;
+	private Long level;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Weapon weapon;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -46,11 +46,11 @@ public class Hero {
 		this.characterClass = characterClass;
 	}
 
-	public int getLevel() {
+	public Long getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(Long level) {
 		this.level = level;
 	}
 
